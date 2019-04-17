@@ -1,27 +1,32 @@
 package vn.poly.hailt.assignmentfinal;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Socket mSocket;
-    private RecyclerView rvHotel;
+    public static final String SERVER_URI = "http://192.168.137.222:3000";
+
+    private RequestQueue mQueue;
+
     private HotelAdapter adapter;
     private List<Hotel> hotels;
 
@@ -30,55 +35,67 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rvHotel = findViewById(R.id.rvHotel);
+        getSupportActionBar().setTitle("Khách sạn");
+
+        RecyclerView rvHotel = findViewById(R.id.rvHotel);
+
+        mQueue = Volley.newRequestQueue(this);
 
         hotels = new ArrayList<>();
         adapter = new HotelAdapter(this, hotels);
         rvHotel.setLayoutManager(new LinearLayoutManager(this));
         rvHotel.setAdapter(adapter);
+        adapter.setOnItemClickActionListener(new HotelAdapter.OnClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("hotelId", hotels.get(position).getHotelId());
+                startActivity(intent);
+            }
+        });
 
-        try {
-            mSocket = IO.socket("http://192.168.137.54:3000");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        mSocket.connect();
-
-        mSocket.on("server-send-hotel", onListHotel);
+        getHotels();
 
     }
 
-    private Emitter.Listener onListHotel = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONObject object = (JSONObject) args[0];
-                    try {
-                        JSONArray array = object.getJSONArray("hotels");
-                        hotels.clear();
-                        Log.e("array", array.toString());
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject hotel = array.getJSONObject(i);
+    private void getHotels() {
+        String url = SERVER_URI + "/api/hotels";
 
-                            String hotelId = hotel.getString("_id");
-                            String name = hotel.getString("name");
-                            String city = hotel.getString("city");
-                            String address = hotel.getString("address");
-                            String owner = hotel.getString("owner");
-                            int licenseNumber = hotel.getInt("license_number");
-                            int totalFloor = hotel.getInt("total_floor");
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray array = response.getJSONArray("hotels");
+                            hotels.clear();
+                            Log.e("arrayHotel", array.toString());
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject hotel = array.getJSONObject(i);
 
-                            hotels.add(new Hotel(hotelId, name, city, address, owner, licenseNumber, totalFloor, ""));
+                                String hotelId = hotel.getString("_id");
+                                String name = hotel.getString("name");
+                                String city = hotel.getString("city");
+                                String address = hotel.getString("address");
+                                String owner = hotel.getString("owner");
+                                long licenseNumber = hotel.getLong("license_number");
+                                int totalFloor = hotel.getInt("total_floor");
+                                String image = hotel.getString("image");
+
+                                hotels.add(new Hotel(hotelId, name, city, address, owner, licenseNumber, totalFloor, image));
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        adapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-            });
-        }
-    };
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        mQueue.add(request);
+
+    }
 }

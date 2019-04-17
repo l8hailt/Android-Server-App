@@ -8,7 +8,7 @@
     android:background="@drawable/item_background">
 
     <ImageView
-        android:id="@+id/imgHotel"
+        android:id="@+id/imgRoom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"
@@ -17,27 +17,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvRoomNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Name"
-        app:layout_constraintTop_toBottomOf="@+id/imgHotel" />
+        android:text="Phòng số"
+        app:layout_constraintTop_toBottomOf="@+id/imgRoom" />
 
     <TextView
         android:id="@+id/tvFloor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Thành phố"
-        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+        android:text="Tầng"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomNumber" />
 
     <TextView
         android:id="@+id/tvHotel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Địa chỉ"
+        android:text="Khách sạn"
         app:layout_constraintTop_toBottomOf="@+id/tvFloor" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Chủ sở hữu"
+        android:text="Phòng đơn"
         app:layout_constraintTop_toBottomOf="@+id/tvHotel" />
 
     <TextView
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Số giấy phép"
+        android:text="Giá"
         app:layout_constraintTop_toBottomOf="@+id/tvSingleRoom" />
 
     <TextView
@@ -61,8 +61,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Số tầng"
+        android:text="Trạng thái phòng"
         app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+
+    <TextView
+        android:id="@+id/tvDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Chi tiết"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
 
 
 </android.support.constraint.ConstraintLayout>

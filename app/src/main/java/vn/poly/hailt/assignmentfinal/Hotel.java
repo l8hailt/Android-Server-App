@@ -7,11 +7,11 @@ public class Hotel {
     private String city;
     private String address;
     private String owner;
-    private int licenseNumber;
+    private long licenseNumber;
     private int totalFloor;
     private String image;
 
-    public Hotel(String hotelId, String name, String city, String address, String owner, int licenseNumber, int totalFloor, String image) {
+    public Hotel(String hotelId, String name, String city, String address, String owner, long licenseNumber, int totalFloor, String image) {
         this.hotelId = hotelId;
         this.name = name;
         this.city = city;
@@ -62,7 +62,7 @@ public class Hotel {
         this.owner = owner;
     }
 
-    public int getLicenseNumber() {
+    public long getLicenseNumber() {
         return licenseNumber;
     }
 

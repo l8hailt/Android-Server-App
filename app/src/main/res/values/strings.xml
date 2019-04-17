@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">AssignmentFinal</string>
+
+    <string name="h_name">Tên khách sạn: %1$s</string>
+    <string name="h_city">Thành phố: %1$s</string>
+    <string name="h_address">Địa chỉ: %1$s</string>
+    <string name="h_owner">Chủ sở hữu: %1$s</string>
+    <string name="h_license_number">Giấy phép số: %1$d</string>
+    <string name="h_total_floor">Tổng số tầng: %1$d</string>
+
+    <string name="r_number">Phòng số: %1$s</string>
+    <string name="r_floor">Tầng: %1$d</string>
+    <string name="r_hotel">Khách sạn: %1$s</string>
+    <string name="r_single_room">Phòng đơn: %1$s</string>
+    <string name="r_price">Giá: %1$d$</string>
+    <string name="r_status">Trạng thái phòng: %1$s</string>
+    <string name="r_detail">Chi tiết: %1$s</string>
+
 </resources>

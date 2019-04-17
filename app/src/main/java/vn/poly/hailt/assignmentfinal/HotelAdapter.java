@@ -9,16 +9,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelHolder> {
 
     private Context context;
     private List<Hotel> hotels;
+    private OnClickListener listener;
 
-    public HotelAdapter(Context context, List<Hotel> hotels) {
+    HotelAdapter(Context context, List<Hotel> hotels) {
         this.context = context;
         this.hotels = hotels;
+    }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
+    }
+
+    void setOnItemClickActionListener(OnClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,13 +42,15 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelHolder>
     @Override
     public void onBindViewHolder(@NonNull HotelHolder holder, int i) {
         Hotel hotel = hotels.get(i);
-        holder.tvName.setText(hotel.getName());
-        holder.tvCity.setText(hotel.getCity());
-        holder.tvAddress.setText(hotel.getAddress());
-        holder.tvOwner.setText(hotel.getOwner());
-        holder.tvLicenseNumber.setText("" + hotel.getLicenseNumber());
-        holder.tvTotalFloor.setText("" + hotel.getTotalFloor());
+        holder.tvName.setText(context.getString(R.string.h_name, hotel.getName()));
+        holder.tvCity.setText(context.getString(R.string.h_city, hotel.getCity()));
+        holder.tvAddress.setText(context.getString(R.string.h_address, hotel.getAddress()));
+        holder.tvOwner.setText(context.getString(R.string.h_owner, hotel.getOwner()));
+        holder.tvLicenseNumber.setText(context.getString(R.string.h_license_number, hotel.getLicenseNumber()));
+        holder.tvTotalFloor.setText(context.getString(R.string.h_total_floor, hotel.getTotalFloor()));
 
+        String pathImage = MainActivity.SERVER_URI + hotel.getImage().replace("\\", "/");
+        Glide.with(context).load(pathImage).into(holder.imgHotel);
     }
 
     @Override
@@ -62,11 +75,18 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelHolder>
 
             imgHotel = itemView.findViewById(R.id.imgHotel);
             tvName = itemView.findViewById(R.id.tvName);
-            tvCity = itemView.findViewById(R.id.tvCity);
-            tvAddress = itemView.findViewById(R.id.tvAddress);
-            tvOwner = itemView.findViewById(R.id.tvOwner);
-            tvLicenseNumber = itemView.findViewById(R.id.tvLicenseNumber);
-            tvTotalFloor = itemView.findViewById(R.id.tvTotalFloor);
+            tvCity = itemView.findViewById(R.id.tvFloor);
+            tvAddress = itemView.findViewById(R.id.tvHotel);
+            tvOwner = itemView.findViewById(R.id.tvSingleRoom);
+            tvLicenseNumber = itemView.findViewById(R.id.tvPrice);
+            tvTotalFloor = itemView.findViewById(R.id.tvStatus);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(getLayoutPosition());
+                }
+            });
         }
     }
 
