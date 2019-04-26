@@ -49,7 +49,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
         holder.tvStatus.setText(context.getString(R.string.r_status, roomStatus));
         holder.tvDetail.setText(context.getString(R.string.r_detail, room.getDetail()));
 
-        String pathImage = MainActivity.SERVER_URI + room.getImage().replace("\\", "/");
+        String pathImage = HotelActivity.SERVER_URI + room.getImage().replace("\\", "/");
         Glide.with(context).load(pathImage).into(holder.imgRoom);
     }
 

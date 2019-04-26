@@ -49,7 +49,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelHolder>
         holder.tvLicenseNumber.setText(context.getString(R.string.h_license_number, hotel.getLicenseNumber()));
         holder.tvTotalFloor.setText(context.getString(R.string.h_total_floor, hotel.getTotalFloor()));
 
-        String pathImage = MainActivity.SERVER_URI + hotel.getImage().replace("\\", "/");
+        String pathImage = HotelActivity.SERVER_URI + hotel.getImage().replace("\\", "/");
         Glide.with(context).load(pathImage).into(holder.imgHotel);
     }
 

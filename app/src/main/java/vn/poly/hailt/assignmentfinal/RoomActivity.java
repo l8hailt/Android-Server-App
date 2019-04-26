@@ -20,7 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SecondActivity extends AppCompatActivity {
+public class RoomActivity extends AppCompatActivity {
 
     private RequestQueue mQueue;
 
@@ -49,7 +49,13 @@ public class SecondActivity extends AppCompatActivity {
 
     private void getRooms() {
         String hotelId = getIntent().getStringExtra("hotelId");
-        String url = MainActivity.SERVER_URI + "/api/rooms/" + hotelId;
+        String url;
+        if (hotelId != null) {
+            url = HotelActivity.SERVER_URI + "/api/rooms/" + hotelId;
+        } else {
+            url = HotelActivity.SERVER_URI + "/api/rooms";
+        }
+
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -97,7 +103,7 @@ public class SecondActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        onBackPressed();
         return true;
     }
 }

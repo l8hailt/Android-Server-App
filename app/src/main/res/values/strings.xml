@@ -15,5 +15,7 @@
     <string name="r_price">Giá: %1$d$</string>
     <string name="r_status">Trạng thái phòng: %1$s</string>
     <string name="r_detail">Chi tiết: %1$s</string>
+    <string name="hotel">Khách sạn</string>
+    <string name="room">Phòng</string>
 
 </resources>
