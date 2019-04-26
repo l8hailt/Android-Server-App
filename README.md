@@ -1,14 +1,15 @@
 # AssignmentFinal
 
-var Hotel = require('../model/hotel')
-var io = require('socket.io').listen(server)
-console.log('Server is running')
-
-io.sockets.on('connection', (socket) => {
-  console.log('Device connected')
-
+router.get('/api/hotels', (req, res, next) => {
   Hotel.find({}, (err, data) => {
-   
-    io.sockets.emit('server-send-hotel', { hotels: data })
+    res.json({ hotels: data })
   })
-})
+});
+
+router.get('/api/rooms/:hId', (req, res, next) => {
+  Room.find({ hotel_id: req.params.hId })
+    .populate('hotel_id')
+    .exec((err, data) => {
+      res.json({ rooms: data })
+    });
+});
